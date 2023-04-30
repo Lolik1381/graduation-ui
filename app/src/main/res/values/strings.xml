@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">ComposeApp</string>
+    <string name="auth_login">Имя пользователя</string>
+    <string name="auth_password">Пароль</string>
+    <string name="auth_sign_in">Войти</string>
+    <string name="auth_sign_out">Выйти</string>
+    <string name="comment">Комментарий</string>
+    <string name="save"> Сохранить</string>
+
+    <string name="connection_exception">Сервер не доступен</string>
+    <string name="task_template_get_exception">Произошла ошибка при попытке получить шаблоны заданий. Попробуйте попозже.</string>
+
+    <string name="required_field">Поле обязательно для заполнения</string>
+
+    <string name="task_template_constructor">Конструктор шаблонов заданий</string>
+    <string name="task_template_check_constructor">Конструктор шаблонов проверок</string>
+    <string name="task_template_constructor_name">Наименование задания</string>
+    <string name="task_template_constructor_description">Описание задания</string>
+
+    <string name="task_template_constructor_add_check">Добавить проверку</string>
+    <string name="task_template_constructor_save_change">Сохранить изменения</string>
+    <string name="task_template_constructor_activate">Активировать</string>
+
+    <string name="task_template_constructor_check_name">Наименование проверки</string>
+    <string name="task_template_constructor_check_description">Описание проверки</string>
+    <string name="task_template_constructor_check_required_photo">Является ли фотофиксация обязательной?</string>
+    <string name="task_template_constructor_check_required_control_value">Является ли контрольное значение обязательным?</string>
+    <string name="task_template_constructor_check_required_comment">Является ли комментарий обязательным?</string>
+    <string name="task_template_constructor_check_control_value_type">Тип контрольной проверки</string>
+
+    <string name="create_admin_page">Выберите необходимый тип создаваемой сущности</string>
+
+    <string name="task_create">Создать чек-лист по шаблону \'%1$s\'</string>
+    <string name="task_scheduler_create">Создать планировщик чек-листов по шаблону \'%1$s\'</string>
+
+
+
+
+    <!--  Пользовательский интерфейс  -->
+    <string name="user_task_list">Контрольные списки</string>
+    <string name="user_task_name">Наименование: </string>
+    <string name="user_task_description">Описание: </string>
+    <string name="user_task">Контрольный список</string>
+    <string name="user_task_check_name">Наименование: </string>
+    <string name="user_task_check_description">Описание: </string>
+
+    <string name="button_add_photo">Прикрепить фото</string>
+    <string name="text_field_control_value">Контрольное значение</string>
+    <string name="text_field_comment_value">Комментарий</string>
+</resources>
