@@ -20,7 +20,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import ru.stankin.compose.R
-import ru.stankin.compose.datasource.Repositories
+import ru.stankin.compose.retrofit.Repositories
 
 @Composable
 fun PhotosPreviewComponent(

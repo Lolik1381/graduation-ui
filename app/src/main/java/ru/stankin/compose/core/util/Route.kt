@@ -2,6 +2,7 @@ package ru.stankin.compose.core.util
 
 enum class Route(val path: String, val scaffoldVisible: Boolean, var role: Role = Role.ALL, val defaultRoute: Boolean = false) {
     AUTH("auth", false),
+    CHANGE_PASSWORD("change-password", false, Role.ALL),
     TASK_INFO("task-info", true, Role.USER, true),
     TASK("task/{taskId}", true, Role.USER),
     USER_PROFILE("user-profile", true, Role.USER),

@@ -1,10 +1,11 @@
-package ru.stankin.compose.datasource
+package ru.stankin.compose.retrofit
 
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.stankin.compose.datasource.converter.ZonedDateTimeConverter
+import ru.stankin.compose.retrofit.interceptor.AuthInterceptor
+import ru.stankin.compose.retrofit.converter.ZonedDateTimeConverter
 import java.time.ZonedDateTime
 
 object RetrofitClient {

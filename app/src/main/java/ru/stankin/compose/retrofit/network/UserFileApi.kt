@@ -1,4 +1,4 @@
-package ru.stankin.compose.datasource.repository
+package ru.stankin.compose.retrofit.network
 
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -8,7 +8,7 @@ import retrofit2.http.Part
 import ru.stankin.compose.model.CommonResponse
 import ru.stankin.compose.model.FileDto
 
-interface UserFileRepository {
+interface UserFileApi {
 
     @Multipart
     @POST("/user/v1/file/multiple-create")

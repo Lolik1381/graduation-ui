@@ -1,4 +1,4 @@
-package ru.stankin.compose.datasource.repository
+package ru.stankin.compose.retrofit.network
 
 import retrofit2.Response
 import retrofit2.http.GET
@@ -8,7 +8,7 @@ import ru.stankin.compose.model.CommonResponse
 import ru.stankin.compose.model.TaskDto
 import ru.stankin.compose.model.TaskMetadataDto
 
-interface TaskRepository {
+interface TaskApi {
 
     @GET("/user/v1/task/findall")
     suspend fun findTasks(@Query("status") status: TaskDto.TaskStatusDto? = null): Response<CommonResponse<List<TaskMetadataDto>>>

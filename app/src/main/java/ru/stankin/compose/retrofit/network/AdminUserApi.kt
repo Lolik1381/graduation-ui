@@ -1,4 +1,4 @@
-package ru.stankin.compose.datasource.repository
+package ru.stankin.compose.retrofit.network
 
 import retrofit2.Response
 import retrofit2.http.GET
@@ -8,7 +8,7 @@ import ru.stankin.compose.model.GroupDto
 import ru.stankin.compose.model.Page
 import ru.stankin.compose.model.UserDto
 
-interface AdminUserRepository {
+interface AdminUserApi {
 
     @GET("/admin/v1/user/findAll")
     suspend fun findAll(

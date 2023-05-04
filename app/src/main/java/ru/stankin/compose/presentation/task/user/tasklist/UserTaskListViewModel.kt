@@ -9,7 +9,7 @@ import ru.stankin.compose.core.ext.update
 import ru.stankin.compose.core.util.content
 import ru.stankin.compose.core.util.onFailure
 import ru.stankin.compose.core.util.onSuccess
-import ru.stankin.compose.datasource.Repositories
+import ru.stankin.compose.retrofit.Repositories
 import ru.stankin.compose.model.TaskMetadataDto
 
 class UserTaskListViewModel : ViewModel() {
@@ -30,7 +30,7 @@ class UserTaskListViewModel : ViewModel() {
 
     fun init() {
         viewModelScope.launch {
-            Repositories.taskRepository.findTasks()
+            Repositories.taskApi.findTasks()
                 .onSuccess { _taskMetadata.update(it.content()) }
                 .onFailure { _errorMessage.value = "Невозможно получить задания" }
         }

@@ -1,4 +1,4 @@
-package ru.stankin.compose.datasource
+package ru.stankin.compose.retrofit.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response

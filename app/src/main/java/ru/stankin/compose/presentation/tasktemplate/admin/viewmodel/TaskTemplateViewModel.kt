@@ -9,7 +9,7 @@ import ru.stankin.compose.core.util.content
 import ru.stankin.compose.core.util.errorMessage
 import ru.stankin.compose.core.util.onFailure
 import ru.stankin.compose.core.util.onSuccess
-import ru.stankin.compose.datasource.Repositories
+import ru.stankin.compose.retrofit.Repositories
 import ru.stankin.compose.model.TaskTemplateDto
 
 class TaskTemplateViewModel : ViewModel() {
@@ -28,7 +28,7 @@ class TaskTemplateViewModel : ViewModel() {
 
     fun init() {
         viewModelScope.launch {
-            Repositories.adminTaskTemplateRepository.findAll()
+            Repositories.adminTaskTemplateApi.findAll()
                 .onSuccess {
                     _taskTemplateList.clear()
                     _taskTemplateList.addAll(it.content()?.content ?: emptyList())

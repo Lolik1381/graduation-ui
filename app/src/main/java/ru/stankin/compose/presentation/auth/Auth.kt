@@ -2,104 +2,107 @@ package ru.stankin.compose.presentation.auth
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import ru.stankin.compose.R
-import ru.stankin.compose.core.manager.JwtTokenManager
+import ru.stankin.compose.core.ext.navigate
 import ru.stankin.compose.core.manager.RoleManager
 import ru.stankin.compose.core.util.Route
-import ru.stankin.compose.core.util.content
-import ru.stankin.compose.core.util.onFailure
-import ru.stankin.compose.core.util.onSuccess
-import ru.stankin.compose.datasource.Repositories
-import ru.stankin.compose.model.RequestLoginDto
-import ru.stankin.compose.model.TextFieldStateDto
-import ru.stankin.compose.presentation.component.ButtonComponent
+import ru.stankin.compose.presentation.component.ErrorScreen
+import ru.stankin.compose.presentation.component.LoadingScreen
 import ru.stankin.compose.presentation.component.PasswordTextFieldComponent
-import ru.stankin.compose.presentation.component.TextComponent
 import ru.stankin.compose.presentation.component.TextFieldComponent
+import ru.stankin.compose.viewmodel.AuthViewModel
+import ru.stankin.compose.viewmodel.event.AuthEvent
+import ru.stankin.compose.viewmodel.state.AuthState
+import ru.stankin.compose.viewmodel.state.AuthViewState
 
 @Composable
 fun Auth(
     navigationController: NavController,
-//    authViewModel: AuthViewModel = viewModel()
+    authViewModel: AuthViewModel
 ) {
-    var login by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
+    when (val authState = authViewModel.authState) {
+        is AuthState.Loading -> LoadingScreen()
+        is AuthState.Loaded -> AuthLoaded(authViewModel = authViewModel, authViewState = authViewModel.authViewState as AuthViewState.Initialized)
+        is AuthState.Processing -> AuthProcessing(authViewModel = authViewModel, authViewState = authViewModel.authViewState as AuthViewState.Initialized)
+        is AuthState.Completed -> navigationController.navigate(Route.values().first { route -> route.defaultRoute && route.role.name in RoleManager.get() })
+        is AuthState.TemporaryPassword -> navigationController.navigate(Route.CHANGE_PASSWORD)
+        is AuthState.Error -> ErrorScreen(
+            onRefresh = { authViewModel.obtainEvent(AuthEvent.Reload) },
+            message = authState.message
+        )
+    }
 
-    var loginFieldState by rememberSaveable { mutableStateOf(TextFieldStateDto()) }
-    var passwordFieldState by rememberSaveable { mutableStateOf(TextFieldStateDto()) }
+    LaunchedEffect(key1 = Unit, block = { authViewModel.obtainEvent(AuthEvent.LoadingComplete) })
+}
 
-    var errorMessage by rememberSaveable { mutableStateOf("") }
+@Composable
+fun AuthLoaded(
+    authViewModel: AuthViewModel,
+    authViewState: AuthViewState.Initialized
+) {
+    AuthScreen(authViewModel = authViewModel, authViewState = authViewState) {
+        Text(text = stringResource(id = R.string.auth_sign_in))
+    }
+}
 
-    val coroutineScope = rememberCoroutineScope()
+@Composable
+fun AuthProcessing(
+    authViewModel: AuthViewModel,
+    authViewState: AuthViewState.Initialized
+) {
+    AuthScreen(authViewModel = authViewModel, authViewState = authViewState) {
+        CircularProgressIndicator(
+            color = Color.White,
+            modifier = Modifier.height(20.dp)
+        )
+    }
+}
 
+@Composable
+fun AuthScreen(
+    authViewModel: AuthViewModel,
+    authViewState: AuthViewState.Initialized,
+    content: @Composable RowScope.() -> Unit
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TextFieldComponent(
-            value = login,
-            onValueChange = { login = it },
+            value = authViewState.login,
+            onValueChange = { authViewModel.obtainEvent(AuthEvent.ChangeLogin(it)) },
             placeholderId = R.string.auth_login,
-            textFieldState = loginFieldState
+            fieldState = authViewState.loginValidatedError
         )
 
         PasswordTextFieldComponent(
-            value = password,
-            onValueChange = { password = it },
+            value = authViewState.password,
+            onValueChange = { authViewModel.obtainEvent(AuthEvent.ChangePassword(it)) },
             placeholderId = R.string.auth_password,
-            textFieldState = passwordFieldState
+            fieldState = authViewState.passwordValidatedError
         )
 
-        ButtonComponent(textId = R.string.auth_sign_in) {
-            loginFieldState = checkState(login)
-            passwordFieldState = checkState(password)
-
-            if (login.isNotBlank() && password.isNotBlank()) {
-                coroutineScope.launch {
-                    runBlocking {
-                        Repositories.userRepository.login(RequestLoginDto(login, password))
-                            .onSuccess { JwtTokenManager.put(it.content().orEmpty()) }
-                    }
-
-                    runBlocking {
-                        Repositories.userRepository.userRoles()
-                            .onSuccess {
-                                RoleManager.put(it.content().orEmpty())
-
-                                navigationController.navigate(
-                                    Route.values().first { route -> route.defaultRoute && route.role.name in it.content().orEmpty() }.path
-                                )
-                            }
-                            .onFailure {
-                                errorMessage = "Не верный логин или пароль"
-                            }
-                    }
-                }
-            }
-        }
-
-        TextComponent(text = errorMessage, color = Color.Red)
+        Button(
+            modifier = Modifier.padding(5.dp)
+                .height(45.dp),
+            onClick = { authViewModel.obtainEvent(AuthEvent.LoginClick) },
+            content = content
+        )
     }
-}
-
-private fun checkState(field: String): TextFieldStateDto {
-    if (field.isBlank()) {
-        return TextFieldStateDto(isError = true, errorMessageId = R.string.required_field)
-    }
-
-    return TextFieldStateDto()
 }

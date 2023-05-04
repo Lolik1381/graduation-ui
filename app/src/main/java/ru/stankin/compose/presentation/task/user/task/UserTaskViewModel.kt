@@ -19,7 +19,7 @@ import ru.stankin.compose.core.util.content
 import ru.stankin.compose.core.util.errorMessage
 import ru.stankin.compose.core.util.onFailure
 import ru.stankin.compose.core.util.onSuccess
-import ru.stankin.compose.datasource.Repositories
+import ru.stankin.compose.retrofit.Repositories
 import ru.stankin.compose.model.FileDto
 import ru.stankin.compose.model.TaskCheckDto
 import ru.stankin.compose.model.TaskDto
@@ -35,9 +35,9 @@ class UserTaskViewModel : ViewModel() {
     private val _isError = mutableStateOf(false)
     private val _errorMessage = mutableStateOf("")
 
-    private val _taskRepository = Repositories.taskRepository
-    private val _userFileRepository = Repositories.userFileRepository
-    private val _userTaskCheckRepository = Repositories.userTaskCheckRepository
+    private val _taskRepository = Repositories.taskApi
+    private val _userFileRepository = Repositories.userFileApi
+    private val _userTaskCheckRepository = Repositories.userTaskCheckApi
 
     @SuppressLint("StaticFieldLeak")
     private lateinit var _context: Context
