@@ -15,7 +15,7 @@ import ru.stankin.compose.core.util.content
 import ru.stankin.compose.core.util.errorMessage
 import ru.stankin.compose.core.util.onFailure
 import ru.stankin.compose.core.util.onSuccess
-import ru.stankin.compose.datasource.Repositories
+import ru.stankin.compose.retrofit.Repositories
 import ru.stankin.compose.model.TaskTemplateCheckDto
 import ru.stankin.compose.model.TaskTemplateDto
 
@@ -76,7 +76,7 @@ class TaskTemplateCRUDViewModel : ViewModel() {
 
         viewModelScope.launch {
             runBlocking {
-                Repositories.adminTaskTemplateRepository.createTaskTemplate(taskTemplateDto)
+                Repositories.adminTaskTemplateApi.createTaskTemplate(taskTemplateDto)
 
                 navController.navigate(Route.TASK_TEMPLATE.path) {
                     navController.graph.startDestinationRoute?.let { screenRoute ->
@@ -98,7 +98,7 @@ class TaskTemplateCRUDViewModel : ViewModel() {
         val taskTemplateDto = toTaskTemplateDto()
 
         viewModelScope.launch {
-            Repositories.adminTaskTemplateRepository.updateTaskTemplate(_taskTemplateId.value!!, taskTemplateDto)
+            Repositories.adminTaskTemplateApi.updateTaskTemplate(_taskTemplateId.value!!, taskTemplateDto)
                 .onSuccess {
                     Toast.makeText(context, "Шаблон задания успешно обновлен", Toast.LENGTH_SHORT).show()
                     navController.navigate(Route.TASK_TEMPLATE.path)
@@ -109,7 +109,7 @@ class TaskTemplateCRUDViewModel : ViewModel() {
 
     fun deleteTaskTemplate(navController: NavController, context: Context) {
         viewModelScope.launch {
-            Repositories.adminTaskTemplateRepository.deleteTaskTemplate(_taskTemplateId.value!!)
+            Repositories.adminTaskTemplateApi.deleteTaskTemplate(_taskTemplateId.value!!)
                 .onSuccess {
                     Toast.makeText(context, "Шаблон задания успешно удален", Toast.LENGTH_SHORT).show()
                     navController.navigate(Route.TASK_TEMPLATE.path)
@@ -120,7 +120,7 @@ class TaskTemplateCRUDViewModel : ViewModel() {
 
     fun activateTaskTemplate(navController: NavController, context: Context) {
         viewModelScope.launch {
-            Repositories.adminTaskTemplateRepository.activateTaskTemplate(_taskTemplateId.value!!)
+            Repositories.adminTaskTemplateApi.activateTaskTemplate(_taskTemplateId.value!!)
                 .onSuccess {
                     Toast.makeText(context, "Шаблон задания успешно активирован", Toast.LENGTH_SHORT).show()
                     navController.navigate(Route.TASK_TEMPLATE.path)
@@ -137,7 +137,7 @@ class TaskTemplateCRUDViewModel : ViewModel() {
 
     fun init(taskTemplateId: String) {
         viewModelScope.launch {
-            Repositories.adminTaskTemplateRepository.findById(taskTemplateId)
+            Repositories.adminTaskTemplateApi.findById(taskTemplateId)
                 .onSuccess {
                     val taskTemplateDto = it.content()
 

@@ -1,4 +1,4 @@
-package ru.stankin.compose.datasource.converter
+package ru.stankin.compose.retrofit.converter
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer

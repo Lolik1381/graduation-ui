@@ -24,14 +24,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import ru.stankin.compose.R
-import ru.stankin.compose.model.TextFieldStateDto
+import ru.stankin.compose.viewmodel.state.FieldState
 
 @Composable
 fun PasswordTextFieldComponent(
     value: String,
     onValueChange: (String) -> Unit,
     placeholderId: Int,
-    textFieldState: TextFieldStateDto
+    fieldState: FieldState
 ) {
     var passwordVisibility by remember { mutableStateOf<PasswordOptions>(PasswordOptions.HidePassword) }
 
@@ -57,15 +57,16 @@ fun PasswordTextFieldComponent(
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         visualTransformation = passwordVisibility.visualTransformation,
-        isError = textFieldState.isError,
+        isError = fieldState is FieldState.Error,
         modifier = Modifier
             .horizontalScroll(rememberScrollState())
             .width(280.dp)
             .height(63.dp)
     )
 
-    if (textFieldState.isError) {
-        textFieldState.errorMessageId?.let { TextComponent(text = stringResource(id = it), color = Color.Red) }
+    when (fieldState) {
+        is FieldState.Ok -> {}
+        is FieldState.Error -> TextComponent(text = fieldState.message, color = Color.Red)
     }
 }
 

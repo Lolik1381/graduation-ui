@@ -2,6 +2,9 @@
     <string name="app_name">ComposeApp</string>
     <string name="auth_login">Имя пользователя</string>
     <string name="auth_password">Пароль</string>
+    <string name="auth_change_password">Изменить</string>
+    <string name="auth_old_password">Старый пароль</string>
+    <string name="auth_new_password">Новый пароль</string>
     <string name="auth_sign_in">Войти</string>
     <string name="auth_sign_out">Выйти</string>
     <string name="comment">Комментарий</string>

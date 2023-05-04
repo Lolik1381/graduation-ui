@@ -1,10 +1,10 @@
-package ru.stankin.compose.datasource.repository
+package ru.stankin.compose.retrofit.network
 
 import retrofit2.Response
 import retrofit2.http.GET
 import ru.stankin.compose.model.HealthDto
 
-interface ActuatorRepository {
+interface ActuatorApi {
 
     @GET("/actuator/health")
     suspend fun health(): Response<HealthDto>

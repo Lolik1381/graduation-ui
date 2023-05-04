@@ -15,5 +15,6 @@ fun NavController.navigate(route: Route, pathVariable: String? = null) {
         }
 
         launchSingleTop = true
+        restoreState = true
     }
 }

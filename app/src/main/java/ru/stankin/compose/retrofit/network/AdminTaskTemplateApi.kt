@@ -1,4 +1,4 @@
-package ru.stankin.compose.datasource.repository
+package ru.stankin.compose.retrofit.network
 
 import retrofit2.Response
 import retrofit2.http.Body
@@ -12,7 +12,7 @@ import ru.stankin.compose.model.CommonResponse
 import ru.stankin.compose.model.Page
 import ru.stankin.compose.model.TaskTemplateDto
 
-interface AdminTaskTemplateRepository {
+interface AdminTaskTemplateApi {
 
     @Headers("Content-Type: application/json")
     @POST("/admin/v1/task/template/create")
