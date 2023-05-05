@@ -4,6 +4,21 @@ import androidx.navigation.NavController
 import ru.stankin.compose.core.util.Route
 import ru.stankin.compose.core.util.replacePathVariable
 
+fun NavController.navigate(route: Route) {
+    val navController = this
+
+    navController.navigate(route.path) {
+        navController.graph.startDestinationRoute?.let { screenRoute ->
+            popUpTo(screenRoute) {
+                saveState = true
+            }
+        }
+
+        launchSingleTop = true
+        restoreState = true
+    }
+}
+
 fun NavController.navigate(route: Route, pathVariable: String? = null) {
     val navController = this
 
@@ -15,6 +30,5 @@ fun NavController.navigate(route: Route, pathVariable: String? = null) {
         }
 
         launchSingleTop = true
-        restoreState = true
     }
 }

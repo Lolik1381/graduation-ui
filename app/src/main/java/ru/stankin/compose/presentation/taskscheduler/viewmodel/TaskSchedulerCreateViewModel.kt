@@ -11,7 +11,7 @@ import ru.stankin.compose.core.util.content
 import ru.stankin.compose.core.util.errorMessage
 import ru.stankin.compose.core.util.onFailure
 import ru.stankin.compose.core.util.onSuccess
-import ru.stankin.compose.retrofit.Repositories
+import ru.stankin.compose.retrofit.APIs
 import ru.stankin.compose.model.TaskSchedulerDto
 import ru.stankin.compose.model.TaskTemplateDto
 
@@ -26,8 +26,8 @@ class TaskSchedulerCreateViewModel : ViewModel() {
     private val _isError = mutableStateOf(false)
     private val _errorMessage = mutableStateOf<String?>(null)
 
-    private val _adminTaskRepository = Repositories.adminTaskTemplateApi
-    private val _adminTaskSchedulerRepository = Repositories.adminTaskSchedulerApi
+    private val _adminTaskRepository = APIs.adminTaskTemplateApi
+    private val _adminTaskSchedulerRepository = APIs.adminTaskSchedulerApi
 
     val taskScheduler
         get() = _taskScheduler.value
@@ -74,7 +74,7 @@ class TaskSchedulerCreateViewModel : ViewModel() {
 
         viewModelScope.launch {
             _adminTaskSchedulerRepository.createTaskTemplate(taskSchedulerDto = taskScheduler)
-                .onSuccess { _navController.navigate(Route.TASK_TEMPLATE) }
+                .onSuccess { _navController.navigate(Route.TASK_TEMPLATE_LIST) }
                 .onFailure {
                     _isError.value = true
                     _errorMessage.value = it.errorMessage()

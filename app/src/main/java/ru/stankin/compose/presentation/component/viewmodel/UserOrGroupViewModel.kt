@@ -9,7 +9,7 @@ import ru.stankin.compose.core.ext.update
 import ru.stankin.compose.core.util.content
 import ru.stankin.compose.core.util.onFailure
 import ru.stankin.compose.core.util.onSuccess
-import ru.stankin.compose.retrofit.Repositories
+import ru.stankin.compose.retrofit.APIs
 import ru.stankin.compose.model.GroupDto
 import ru.stankin.compose.model.UserDto
 import ru.stankin.compose.presentation.component.UserOrGroupState
@@ -21,7 +21,7 @@ class UserOrGroupViewModel : ViewModel() {
     private val _isError = mutableStateOf(false)
     private val _errorMessage = mutableStateOf<String?>(null)
 
-    private val _adminUserRepository = Repositories.adminUserApi
+    private val _adminUserRepository = APIs.adminUserApi
 
     val isError: Boolean
         get() = _isError.value

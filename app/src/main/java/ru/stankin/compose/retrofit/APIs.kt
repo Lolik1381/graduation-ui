@@ -1,16 +1,17 @@
 package ru.stankin.compose.retrofit
 
 import ru.stankin.compose.retrofit.network.ActuatorApi
+import ru.stankin.compose.retrofit.network.AdminEquipmentApi
 import ru.stankin.compose.retrofit.network.AdminTaskApi
 import ru.stankin.compose.retrofit.network.AdminTaskSchedulerApi
 import ru.stankin.compose.retrofit.network.AdminTaskTemplateApi
 import ru.stankin.compose.retrofit.network.AdminUserApi
 import ru.stankin.compose.retrofit.network.TaskApi
-import ru.stankin.compose.retrofit.network.UserFileApi
 import ru.stankin.compose.retrofit.network.UserApi
+import ru.stankin.compose.retrofit.network.UserFileApi
 import ru.stankin.compose.retrofit.network.UserTaskCheckApi
 
-object Repositories {
+object APIs {
     const val BASE_URL = "http://192.168.1.5:8080/"
 
     val userApi: UserApi
@@ -33,6 +34,9 @@ object Repositories {
 
     val adminTaskSchedulerApi: AdminTaskSchedulerApi
         get() = RetrofitClient.getClient(BASE_URL).create(AdminTaskSchedulerApi::class.java)
+
+    val adminEquipmentApi: AdminEquipmentApi
+        get() = RetrofitClient.getClient(BASE_URL).create(AdminEquipmentApi::class.java)
 
     val userFileApi: UserFileApi
         get() = RetrofitClient.getClient(BASE_URL).create(UserFileApi::class.java)

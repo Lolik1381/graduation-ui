@@ -61,14 +61,15 @@ fun UserTaskCheckCardComponent(
         ) {
 
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(0.9f)
-                ) {
-                    TextComponent(text = stringResource(id = R.string.user_task_check_name), style = MaterialTheme.typography.h6)
-                    TextComponent(text = taskTemplateCheckDto.name.orEmpty(), style = MaterialTheme.typography.h6)
-                }
+                TextComponent(
+                    modifier = Modifier.fillMaxWidth(0.9f),
+                    text = taskTemplateCheckDto.name.orEmpty(),
+                    style = MaterialTheme.typography.h6
+                )
+
                 Icon(
                     imageVector = Icons.Filled.CheckBoxOutlineBlank,
                     contentDescription = null,
@@ -76,13 +77,7 @@ fun UserTaskCheckCardComponent(
                 )
             }
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TextComponent(text = stringResource(id = R.string.user_task_check_description), style = MaterialTheme.typography.caption)
-                TextComponent(text = taskTemplateCheckDto.description.orEmpty(), style = MaterialTheme.typography.caption)
-            }
-
+            TextComponent(text = taskTemplateCheckDto.description.orEmpty(), style = MaterialTheme.typography.caption)
             DividerComponent()
 
             UserTaskCheckControlValueComponent(

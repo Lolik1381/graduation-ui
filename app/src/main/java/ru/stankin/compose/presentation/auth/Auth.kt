@@ -28,17 +28,17 @@ import ru.stankin.compose.presentation.component.TextFieldComponent
 import ru.stankin.compose.viewmodel.AuthViewModel
 import ru.stankin.compose.viewmodel.event.AuthEvent
 import ru.stankin.compose.viewmodel.state.AuthState
-import ru.stankin.compose.viewmodel.state.AuthViewState
+import ru.stankin.compose.viewmodel.viewstate.AuthViewState
 
 @Composable
 fun Auth(
     navigationController: NavController,
     authViewModel: AuthViewModel
 ) {
-    when (val authState = authViewModel.authState) {
+    when (val authState = authViewModel.state) {
         is AuthState.Loading -> LoadingScreen()
-        is AuthState.Loaded -> AuthLoaded(authViewModel = authViewModel, authViewState = authViewModel.authViewState as AuthViewState.Initialized)
-        is AuthState.Processing -> AuthProcessing(authViewModel = authViewModel, authViewState = authViewModel.authViewState as AuthViewState.Initialized)
+        is AuthState.Loaded -> AuthLoaded(authViewModel = authViewModel, authViewState = authViewModel.viewState as AuthViewState.Initialized)
+        is AuthState.Processing -> AuthProcessing(authViewModel = authViewModel, authViewState = authViewModel.viewState as AuthViewState.Initialized)
         is AuthState.Completed -> navigationController.navigate(Route.values().first { route -> route.defaultRoute && route.role.name in RoleManager.get() })
         is AuthState.TemporaryPassword -> navigationController.navigate(Route.CHANGE_PASSWORD)
         is AuthState.Error -> ErrorScreen(

@@ -24,7 +24,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import ru.stankin.compose.R
-import ru.stankin.compose.viewmodel.state.FieldState
+import ru.stankin.compose.viewmodel.base.FieldState
 
 @Composable
 fun PasswordTextFieldComponent(

@@ -1,4 +1,4 @@
-package ru.stankin.compose.viewmodel.state
+package ru.stankin.compose.viewmodel.base
 
 sealed class FieldState {
 

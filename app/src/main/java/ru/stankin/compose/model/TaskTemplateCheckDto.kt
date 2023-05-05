@@ -5,14 +5,14 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TaskTemplateCheckDto(
-    var id: String? = null,
-    var name: String? = null,
-    var description: String? = null,
+    var id: String = "",
+    var name: String = "",
+    var description: String = "",
     var requiredPhoto: Boolean = false,
     var requiredComment: Boolean = false,
     var requiredControlValue: Boolean = false,
-    var taskTemplateCheckOrder: Int? = null,
-    var controlValueType: PermissionControlValueType? = null
+    var taskTemplateCheckOrder: Int = 0,
+    var controlValueType: PermissionControlValueType = PermissionControlValueType.STRING
 ) : Parcelable {
 
     @Parcelize

@@ -54,19 +54,8 @@ fun UserTaskComponent(
 
         DividerComponent()
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextComponent(text = stringResource(id = R.string.user_task_name), style = MaterialTheme.typography.h6)
-            TextComponent(text = viewModel.task?.taskTemplate?.header.orEmpty(), style = MaterialTheme.typography.h6)
-        }
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextComponent(text = stringResource(id = R.string.user_task_description), style = MaterialTheme.typography.caption)
-            TextComponent(text = viewModel.task?.taskTemplate?.description.orEmpty(), style = MaterialTheme.typography.caption)
-        }
+        TextComponent(text = viewModel.task?.taskTemplate?.header.orEmpty(), style = MaterialTheme.typography.h6)
+        TextComponent(text = viewModel.task?.taskTemplate?.description.orEmpty(), style = MaterialTheme.typography.caption)
 
         Row {
             DividerComponent(

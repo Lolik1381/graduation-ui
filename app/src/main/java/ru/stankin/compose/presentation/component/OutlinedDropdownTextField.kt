@@ -19,21 +19,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 
 /**
  * @param items - Мапа параметров. Key - Уникальное значение (UUID), Value - Значение выводимое на UI
  */
-@Preview(showBackground = true)
 @Composable
 fun <T> OutlinedDropdownTextField(
     items: Map<T, String> = emptyMap(),
@@ -44,7 +41,8 @@ fun <T> OutlinedDropdownTextField(
     label: String = "",
     defaultValue: String = "",
     onClick: (key: T, value: String) -> Unit = { _, _ -> },
-    onUpdatedValues: (value: String) -> Unit = {  }
+    onUpdatedValues: (value: String) -> Unit = {  },
+    expandedHandler: (String) -> Unit = {}
 ) {
     var searchValue by remember { mutableStateOf(defaultValue) }
     var expanded by remember { mutableStateOf(false) }
@@ -62,15 +60,34 @@ fun <T> OutlinedDropdownTextField(
                 onValueChange = {
                     expanded = true
                     searchValue = it
+                    expandedHandler(searchValue)
                 },
                 enabled = enableSearch,
                 modifier = Modifier
                     .onGloballyPositioned { textFieldSize = it.size.toSize() }
-                    .clickable(enabled = enabled) { expanded = !expanded }
+                    .clickable(enabled = enabled) {
+                        val isExpanded = !expanded
+                        if (isExpanded) {
+                            expandedHandler(searchValue)
+                        }
+
+                        expanded = isExpanded
+                    }
                     .fillMaxWidth(),
                 label = { Text(text = label) },
                 trailingIcon = {
-                    Icon(icon,"", Modifier.clickable(enabled = enabled) { expanded = !expanded })
+                    Icon(
+                        modifier = Modifier.clickable(enabled = enabled) {
+                            val isExpanded = !expanded
+                            if (isExpanded) {
+                                expandedHandler(searchValue)
+                            }
+
+                            expanded = isExpanded
+                        },
+                        imageVector = icon,
+                        contentDescription = null,
+                    )
                 }
             )
 

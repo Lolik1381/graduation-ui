@@ -17,7 +17,7 @@ import ru.stankin.compose.core.util.content
 import ru.stankin.compose.core.util.errorMessage
 import ru.stankin.compose.core.util.onFailure
 import ru.stankin.compose.core.util.onSuccess
-import ru.stankin.compose.retrofit.Repositories
+import ru.stankin.compose.retrofit.APIs
 import ru.stankin.compose.model.GroupDto
 import ru.stankin.compose.model.TaskDto
 import ru.stankin.compose.model.TaskTemplateDto
@@ -61,19 +61,19 @@ class TaskCRUDViewModel(
     fun init(taskTemplateId: String? = null) {
         viewModelScope.launch {
             taskTemplateId?.let {
-                Repositories.adminTaskTemplateApi.findById(taskTemplateId)
+                APIs.adminTaskTemplateApi.findById(taskTemplateId)
                     .onSuccess {
                         taskTemplate = it.content()
-                        taskDto.taskTemplate?.id = taskTemplate?.id
+                        taskDto.taskTemplate?.id = taskTemplate?.id.orEmpty()
                     }
                     .onFailure { errorMessage = it.errorMessage() }
             }
 
-            Repositories.adminUserApi.findAll(size = 5)
+            APIs.adminUserApi.findAll(size = 5)
                 .onSuccess { _userList.update(it.content()?.content) }
                 .onFailure { errorMessage = it.errorMessage() }
 
-            Repositories.adminUserApi.findAllGroups(size = 5)
+            APIs.adminUserApi.findAllGroups(size = 5)
                 .onSuccess { _groupList.update(it.content()?.content) }
                 .onFailure { errorMessage = it.errorMessage() }
         }
@@ -81,13 +81,13 @@ class TaskCRUDViewModel(
 
     fun updateUserInfo(searchText: String) {
         viewModelScope.launch {
-            Repositories.adminUserApi.findAll(searchText = searchText, size = 5)
+            APIs.adminUserApi.findAll(searchText = searchText, size = 5)
                 .onSuccess { _userList.update(it.content()?.content) }
                 .onFailure { errorMessage = it.errorMessage() }
         }
 
         viewModelScope.launch {
-            Repositories.adminUserApi.findAllGroups(searchName = searchText, size = 5)
+            APIs.adminUserApi.findAllGroups(searchName = searchText, size = 5)
                 .onSuccess { _groupList.update(it.content()?.content) }
                 .onFailure { errorMessage = it.errorMessage() }
         }
@@ -103,9 +103,9 @@ class TaskCRUDViewModel(
             taskDto.groupId = groupList.find { it.id == userIdOrGroupId }?.id
 
             viewModelScope.launch {
-                Repositories.adminTaskApi.createTask(taskDto)
+                APIs.adminTaskApi.createTask(taskDto)
                     .onSuccess {
-                        navController.navigate(Route.TASK_TEMPLATE.path)
+                        navController.navigate(Route.TASK_TEMPLATE_LIST.path)
                         Toast.makeText(context, "Задание успешно создано", Toast.LENGTH_SHORT).show()
                     }
                     .onFailure { errorMessage = it.errorMessage() }

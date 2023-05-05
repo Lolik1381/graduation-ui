@@ -20,7 +20,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import ru.stankin.compose.R
-import ru.stankin.compose.retrofit.Repositories
+import ru.stankin.compose.retrofit.APIs
 
 @Composable
 fun PhotosPreviewComponent(
@@ -54,7 +54,7 @@ fun PhotosPreviewComponent(
             LazyRow {
                 items(items = photoStorageKeys) {
                     SubcomposeAsyncImage(
-                        model = "${Repositories.BASE_URL}user/v1/file/${it}",
+                        model = "${APIs.BASE_URL}user/v1/file/${it}",
                         contentDescription = null,
                         modifier = Modifier
                             .height(100.dp)

@@ -5,11 +5,12 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TaskTemplateDto(
-    var id: String? = null,
-    var header: String? = null,
-    var description: String? = null,
-    var status: TaskTemplateDtoStatus? = null,
-    var taskTemplateChecks: MutableList<TaskTemplateCheckDto>? = null
+    var id: String = "",
+    var header: String = "",
+    var description: String = "",
+    var status: TaskTemplateDtoStatus = TaskTemplateDtoStatus.DRAFT,
+    var equipment: EquipmentDto = EquipmentDto(),
+    var taskTemplateChecks: MutableList<TaskTemplateCheckDto> = mutableListOf()
 ) : Parcelable {
 
     enum class TaskTemplateDtoStatus(

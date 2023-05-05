@@ -29,14 +29,14 @@ import ru.stankin.compose.presentation.component.TextFieldComponent
 import ru.stankin.compose.viewmodel.ChangePasswordViewModel
 import ru.stankin.compose.viewmodel.event.ChangePasswordEvent
 import ru.stankin.compose.viewmodel.state.ChangePasswordState
-import ru.stankin.compose.viewmodel.state.ChangePasswordViewState
+import ru.stankin.compose.viewmodel.viewstate.ChangePasswordViewState
 
 @Composable
 fun ChangePassword(navController: NavController, changePasswordViewModel: ChangePasswordViewModel) {
-    when (val changePasswordState = changePasswordViewModel.changePasswordState) {
+    when (val changePasswordState = changePasswordViewModel.state) {
         is ChangePasswordState.Loading -> LoadingScreen()
-        is ChangePasswordState.Loaded -> ChangePasswordLoaded(changePasswordViewModel, changePasswordViewModel.changePasswordViewState as ChangePasswordViewState.Initialized)
-        is ChangePasswordState.Processing -> ChangePasswordProcessing(changePasswordViewModel, changePasswordViewModel.changePasswordViewState as ChangePasswordViewState.Initialized)
+        is ChangePasswordState.Loaded -> ChangePasswordLoaded(changePasswordViewModel, changePasswordViewModel.viewState as ChangePasswordViewState.Initialized)
+        is ChangePasswordState.Processing -> ChangePasswordProcessing(changePasswordViewModel, changePasswordViewModel.viewState as ChangePasswordViewState.Initialized)
         is ChangePasswordState.Completed -> {
             Toast.makeText(LocalContext.current, "Пароль успешно изменен", Toast.LENGTH_SHORT).show()
             navController.navigate(Route.AUTH)
@@ -82,7 +82,8 @@ fun ChangePasswordScreen(
             value = changePasswordViewState.login,
             onValueChange = { changePasswordViewModel.obtainEvent(ChangePasswordEvent.ChangeLogin(it)) },
             placeholderId = R.string.auth_login,
-            fieldState = changePasswordViewState.loginValidatedError
+            fieldState = changePasswordViewState.loginValidatedError,
+            required = true
         )
 
         PasswordTextFieldComponent(

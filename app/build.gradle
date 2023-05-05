@@ -63,6 +63,12 @@ dependencies {
     implementation 'com.ucasoft.kcron:kcron-common:0.5.3'
     implementation 'io.coil-kt:coil-compose:2.2.0'
 
+    def camerax_version = "1.2.2"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
+    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
+    implementation "androidx.camera:camera-view:${camerax_version}"
+    implementation 'com.google.mlkit:barcode-scanning:17.0.3'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'

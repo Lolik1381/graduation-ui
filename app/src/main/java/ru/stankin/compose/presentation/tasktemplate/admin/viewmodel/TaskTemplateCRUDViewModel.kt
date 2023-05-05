@@ -15,7 +15,7 @@ import ru.stankin.compose.core.util.content
 import ru.stankin.compose.core.util.errorMessage
 import ru.stankin.compose.core.util.onFailure
 import ru.stankin.compose.core.util.onSuccess
-import ru.stankin.compose.retrofit.Repositories
+import ru.stankin.compose.retrofit.APIs
 import ru.stankin.compose.model.TaskTemplateCheckDto
 import ru.stankin.compose.model.TaskTemplateDto
 
@@ -76,9 +76,9 @@ class TaskTemplateCRUDViewModel : ViewModel() {
 
         viewModelScope.launch {
             runBlocking {
-                Repositories.adminTaskTemplateApi.createTaskTemplate(taskTemplateDto)
+                APIs.adminTaskTemplateApi.createTaskTemplate(taskTemplateDto)
 
-                navController.navigate(Route.TASK_TEMPLATE.path) {
+                navController.navigate(Route.TASK_TEMPLATE_LIST.path) {
                     navController.graph.startDestinationRoute?.let { screenRoute ->
                         popUpTo(screenRoute) {
                             saveState = true
@@ -98,10 +98,10 @@ class TaskTemplateCRUDViewModel : ViewModel() {
         val taskTemplateDto = toTaskTemplateDto()
 
         viewModelScope.launch {
-            Repositories.adminTaskTemplateApi.updateTaskTemplate(_taskTemplateId.value!!, taskTemplateDto)
+            APIs.adminTaskTemplateApi.updateTaskTemplate(_taskTemplateId.value!!, taskTemplateDto)
                 .onSuccess {
                     Toast.makeText(context, "Шаблон задания успешно обновлен", Toast.LENGTH_SHORT).show()
-                    navController.navigate(Route.TASK_TEMPLATE.path)
+                    navController.navigate(Route.TASK_TEMPLATE_LIST.path)
                 }
                 .onFailure { Toast.makeText(context, "Не удалось обновить шаблон задания. Попробуйте позже.", Toast.LENGTH_SHORT).show() }
         }
@@ -109,10 +109,10 @@ class TaskTemplateCRUDViewModel : ViewModel() {
 
     fun deleteTaskTemplate(navController: NavController, context: Context) {
         viewModelScope.launch {
-            Repositories.adminTaskTemplateApi.deleteTaskTemplate(_taskTemplateId.value!!)
+            APIs.adminTaskTemplateApi.deleteTaskTemplate(_taskTemplateId.value!!)
                 .onSuccess {
                     Toast.makeText(context, "Шаблон задания успешно удален", Toast.LENGTH_SHORT).show()
-                    navController.navigate(Route.TASK_TEMPLATE.path)
+                    navController.navigate(Route.TASK_TEMPLATE_LIST.path)
                 }
                 .onFailure { Toast.makeText(context, "Не удалось удалить шаблон задания. Попробуйте позже.", Toast.LENGTH_SHORT).show() }
         }
@@ -120,10 +120,10 @@ class TaskTemplateCRUDViewModel : ViewModel() {
 
     fun activateTaskTemplate(navController: NavController, context: Context) {
         viewModelScope.launch {
-            Repositories.adminTaskTemplateApi.activateTaskTemplate(_taskTemplateId.value!!)
+            APIs.adminTaskTemplateApi.activateTaskTemplate(_taskTemplateId.value!!)
                 .onSuccess {
                     Toast.makeText(context, "Шаблон задания успешно активирован", Toast.LENGTH_SHORT).show()
-                    navController.navigate(Route.TASK_TEMPLATE.path)
+                    navController.navigate(Route.TASK_TEMPLATE_LIST.path)
                 }
                 .onFailure { Toast.makeText(context, "Не удалось активировать шаблон задания. Попробуйте позже.", Toast.LENGTH_SHORT).show() }
         }
@@ -137,7 +137,7 @@ class TaskTemplateCRUDViewModel : ViewModel() {
 
     fun init(taskTemplateId: String) {
         viewModelScope.launch {
-            Repositories.adminTaskTemplateApi.findById(taskTemplateId)
+            APIs.adminTaskTemplateApi.findById(taskTemplateId)
                 .onSuccess {
                     val taskTemplateDto = it.content()
 
@@ -180,19 +180,19 @@ class TaskTemplateCRUDViewModel : ViewModel() {
 
     private fun toTaskTemplateDto(): TaskTemplateDto {
         return TaskTemplateDto(
-            id = _taskTemplateId.value,
+            id = _taskTemplateId.value.orEmpty(),
             header = taskTemplateName,
             description = taskTemplateDescription,
             taskTemplateChecks = taskTemplateChecks.map {
                 TaskTemplateCheckDto(
-                    id = it.id,
+                    id = it.id.orEmpty(),
                     name = it.name,
                     description = it.description,
                     requiredPhoto = it.requiredPhoto,
                     requiredComment = it.requiredComment,
                     requiredControlValue = it.requiredControlValue,
                     taskTemplateCheckOrder = it.order,
-                    controlValueType = it.controlValueType
+                    controlValueType = it.controlValueType ?: TaskTemplateCheckDto.PermissionControlValueType.STRING
                 )
             }.toMutableList()
         )

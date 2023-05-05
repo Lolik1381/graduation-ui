@@ -41,7 +41,7 @@ fun Root() {
         floatingActionButton = {
             if (isVisible(navController) && Role.ADMIN.name in RoleManager.get()) {
                 FloatingActionButton(
-                    onClick = { navController.navigate(Route.TASK_TEMPLATE_CREATE) }
+                    onClick = { navController.navigate(Route.TASK_TEMPLATE, null) }
                 ) {
                     Icon(Icons.Filled.Add, contentDescription = "Добавить")
                 }

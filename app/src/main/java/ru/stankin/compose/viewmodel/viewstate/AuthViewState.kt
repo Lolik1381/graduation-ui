@@ -1,4 +1,6 @@
-package ru.stankin.compose.viewmodel.state
+package ru.stankin.compose.viewmodel.viewstate
+
+import ru.stankin.compose.viewmodel.base.FieldState
 
 sealed class AuthViewState {
 

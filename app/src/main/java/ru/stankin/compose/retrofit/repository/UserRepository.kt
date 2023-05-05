@@ -9,11 +9,11 @@ import ru.stankin.compose.model.CommonResponse
 import ru.stankin.compose.model.RequestChangePasswordDto
 import ru.stankin.compose.model.RequestLoginDto
 import ru.stankin.compose.model.ResponseLoginDto
-import ru.stankin.compose.retrofit.Repositories
+import ru.stankin.compose.retrofit.APIs
 import ru.stankin.compose.retrofit.network.UserApi
 
 class UserRepository(
-    private val userApi: UserApi = Repositories.userApi
+    private val userApi: UserApi = APIs.userApi
 ) {
 
     fun login(loginDto: RequestLoginDto): Flow<Response<CommonResponse<ResponseLoginDto>>> = flow {

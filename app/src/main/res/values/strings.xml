@@ -15,12 +15,13 @@
 
     <string name="required_field">Поле обязательно для заполнения</string>
 
-    <string name="task_template_constructor">Конструктор шаблонов заданий</string>
-    <string name="task_template_check_constructor">Конструктор шаблонов проверок</string>
-    <string name="task_template_constructor_name">Наименование задания</string>
-    <string name="task_template_constructor_description">Описание задания</string>
+    <string name="task_template_constructor">Конструктор шаблонов контрольных списков</string>
+    <string name="task_template_check_constructor">Конструктор шаблона контрольной проверки</string>
+    <string name="task_template_constructor_name">Наименование контрольного списка</string>
+    <string name="task_template_constructor_description">Описание контрольного списка</string>
+    <string name="task_template_constructor_equipment">Оборудование</string>
 
-    <string name="task_template_constructor_add_check">Добавить проверку</string>
+    <string name="task_template_constructor_add_check">Добавить контрольную проверку</string>
     <string name="task_template_constructor_save_change">Сохранить изменения</string>
     <string name="task_template_constructor_activate">Активировать</string>
 
@@ -50,4 +51,8 @@
     <string name="button_add_photo">Прикрепить фото</string>
     <string name="text_field_control_value">Контрольное значение</string>
     <string name="text_field_comment_value">Комментарий</string>
+
+    <!--  Создание группы пользователей  -->
+    <string name="construct_groups">Конструктор группы пользователей</string>
+    <string name="group_name">Наименование группы</string>
 </resources>
